@@ -1,4 +1,4 @@
-PATRONUS API
+# PATRONUS API
 
 ¡Bienvenido a la API REST de Harry Potter! Esta API proporciona acceso a una variedad de datos relacionados con el mundo mágico de Harry Potter, incluyendo personajes, casas de Hogwarts, hechizos y más.
 Características
@@ -18,18 +18,16 @@ Endpoints Disponibles
 
 Ejemplo de Uso
 
-bash
-
-# Obtener todos los personajes
+ Obtener todos los personajes
 GET /characters
 
-# Obtener información sobre las casas de Hogwarts
+ Obtener información sobre las casas de Hogwarts
 GET /houses
 
-# Obtener una lista de hechizos mágicos
+ Obtener una lista de hechizos mágicos
 GET /spells
 
-# Obtener información sobre los libros de Harry Potter
+ Obtener información sobre los libros de Harry Potter
 GET /books
 
 Contribuir
