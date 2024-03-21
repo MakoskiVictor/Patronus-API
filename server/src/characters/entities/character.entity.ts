@@ -3,6 +3,7 @@ import {
   Column,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -47,7 +48,9 @@ export class Character {
 
   // Varios Characters puede pertenecer a una House
   @ManyToOne(() => House, (house) => house.characters, {
+    // Este cascade ayuda a la recuperación en caso de delete
     cascade: ['soft-remove', 'recover'],
   })
+  @JoinColumn()
   house: House;
 }
