@@ -5,7 +5,7 @@ export class Species {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column('varchar')
+  @Column({ type: 'varchar', unique: true })
   name: string;
 
   @Column('varchar')
