@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -16,4 +16,7 @@ export class User {
 
   @Column({ type: 'enum', default: 'user', nullable: true })
   rol: 'user' | 'admin';
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

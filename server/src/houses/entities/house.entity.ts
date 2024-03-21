@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class House {
@@ -10,4 +10,7 @@ export class House {
 
   @Column({ type: 'varchar' })
   description: string;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

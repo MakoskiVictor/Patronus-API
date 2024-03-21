@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Spell {
@@ -10,4 +10,7 @@ export class Spell {
 
   @Column('varchar')
   description: string;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }
