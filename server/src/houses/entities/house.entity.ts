@@ -1,4 +1,11 @@
-import { Column, DeleteDateColumn, Entity, PrimaryColumn } from 'typeorm';
+import { Character } from 'src/characters';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryColumn,
+} from 'typeorm';
 
 @Entity()
 export class House {
@@ -13,4 +20,10 @@ export class House {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  // Una House puede tener muchos Characters
+  @OneToMany(() => Character, (character) => character.house, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  characters: Character[];
 }
