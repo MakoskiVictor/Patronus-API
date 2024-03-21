@@ -23,6 +23,7 @@ export class House {
 
   // Una House puede tener muchos Characters
   @OneToMany(() => Character, (character) => character.house, {
+    // Este cascade ayuda a la recuperación en caso de delete
     cascade: ['soft-remove', 'recover'],
   })
   characters: Character[];
