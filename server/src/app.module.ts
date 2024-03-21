@@ -3,13 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CharactersModule } from './characters/characters.module';
-import { HousesModule } from './houses/houses.module';
-import { AlternateNamesModule } from './alternate_names/alternate_names.module';
-import { SpeciesModule } from './species/species.module';
-import { SpellsModule } from './spells/spells.module';
-import { WandsModule } from './wands/wands.module';
-import { UsersModule } from './users/users.module';
+import { CharactersModule } from './characters';
+import { HousesModule } from './houses';
+import { AlternateNamesModule } from './alternate_names';
+import { SpeciesModule } from './species';
+import { SpellsModule } from './spells';
+import { WandsModule } from './wands';
+import { UsersModule } from './users';
 
 @Module({
   imports: [
