@@ -1,7 +1,9 @@
+import { House } from 'src/houses';
 import {
   Column,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -42,4 +44,10 @@ export class Character {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  // Varios Characters puede pertenecer a una House
+  @ManyToOne(() => House, (house) => house.characters, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  house: House;
 }
