@@ -32,6 +32,7 @@ export class User {
   // One User can create many Characters
   @OneToMany(() => Character, (characters) => characters.created_by, {
     cascade: ['soft-remove', 'recover'],
+    eager: true,
   })
   @JoinColumn()
   characters_created: Character[];
@@ -39,6 +40,7 @@ export class User {
   // One User can create many Spells
   @OneToMany(() => Spell, (spells) => spells.created_by, {
     cascade: ['soft-remove', 'recover'],
+    eager: true,
   })
   @JoinColumn()
   // Nombre de la columna
