@@ -3,6 +3,7 @@ import { House } from 'src/houses';
 import { Species } from 'src/species';
 import { Spell } from 'src/spells';
 import { User } from 'src/users';
+import { Wand } from 'src/wands';
 import {
   Column,
   DeleteDateColumn,
@@ -11,6 +12,7 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -88,4 +90,11 @@ export class Character {
     cascade: ['soft-remove', 'recover'],
   })
   created_by: User;
+
+  // One Character can have one Wand
+  @OneToOne(() => Wand, (wand) => wand.character, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  @JoinColumn()
+  wand: Wand;
 }
