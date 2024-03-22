@@ -1,4 +1,11 @@
-import { Column, DeleteDateColumn, Entity, PrimaryColumn } from 'typeorm';
+import { Character } from 'src/characters';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  ManyToMany,
+  PrimaryColumn,
+} from 'typeorm';
 
 @Entity()
 export class Spell {
@@ -13,4 +20,11 @@ export class Spell {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  // Many Spells can be known by mane characters
+  @ManyToMany(() => Character, (characters) => characters.spells, {
+    cascade: ['recover', 'soft-remove'],
+  })
+  //Nombre de la columna
+  characters: Character[];
 }
