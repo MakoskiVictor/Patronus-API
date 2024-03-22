@@ -67,7 +67,7 @@ export class Character {
   alternate_names: AlternateName[];
 
   // Un Character solo pertenece a una specie
-  @OneToMany(() => Species, (specie) => specie.characters, {
+  @ManyToOne(() => Species, (specie) => specie.characters, {
     cascade: ['soft-remove', 'recover'],
   })
   @JoinColumn()
