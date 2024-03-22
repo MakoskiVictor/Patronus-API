@@ -1,7 +1,9 @@
+import { Character } from 'src/characters';
 import {
   Column,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -15,4 +17,9 @@ export class AlternateName {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @ManyToOne(() => Character, (character) => character.alternate_names, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  character: Character;
 }
