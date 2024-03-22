@@ -58,6 +58,7 @@ export class Character {
   @ManyToOne(() => House, (house) => house.characters, {
     // Este cascade ayuda a la recuperación en caso de delete
     cascade: ['soft-remove', 'recover'],
+    eager: true,
   })
   @JoinColumn()
   // Nombre de la Columna
@@ -66,6 +67,7 @@ export class Character {
   // Un Character puede tener varios Alternated_names
   @OneToMany(() => AlternateName, (alternatename) => alternatename.character, {
     cascade: ['soft-remove', 'recover'],
+    eager: true,
   })
   @JoinColumn()
   // Nombre de la Columna
@@ -74,6 +76,7 @@ export class Character {
   // Un Character solo pertenece a una specie
   @ManyToOne(() => Species, (specie) => specie.characters, {
     cascade: ['soft-remove', 'recover'],
+    eager: true,
   })
   @JoinColumn()
   specie: Species;
@@ -81,6 +84,7 @@ export class Character {
   // Many Characters can know many Spells
   @ManyToMany(() => Spell, (spells) => spells.characters, {
     cascade: ['soft-remove', 'recover'],
+    eager: true,
   })
   @JoinColumn()
   spells: Spell[];
@@ -88,12 +92,14 @@ export class Character {
   // Many characters can be created by one user
   @ManyToOne(() => User, (user) => user.characters_created, {
     cascade: ['soft-remove', 'recover'],
+    eager: true,
   })
   created_by: User;
 
   // One Character can have one Wand
   @OneToOne(() => Wand, (wand) => wand.character, {
     cascade: ['soft-remove', 'recover'],
+    eager: true,
   })
   @JoinColumn()
   wand: Wand;
