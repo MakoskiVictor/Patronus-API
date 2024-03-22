@@ -1,11 +1,13 @@
 import { AlternateName } from 'src/alternate_names';
 import { House } from 'src/houses';
 import { Species } from 'src/species';
+import { Spell } from 'src/spells';
 import {
   Column,
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -72,4 +74,11 @@ export class Character {
   })
   @JoinColumn()
   specie: Species;
+
+  // Many Characters can know many Spells
+  @ManyToMany(() => Spell, (spells) => spells.characters, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  @JoinColumn()
+  spells: Spell[];
 }
