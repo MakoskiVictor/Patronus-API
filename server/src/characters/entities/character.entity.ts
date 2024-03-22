@@ -2,6 +2,7 @@ import { AlternateName } from 'src/alternate_names';
 import { House } from 'src/houses';
 import { Species } from 'src/species';
 import { Spell } from 'src/spells';
+import { User } from 'src/users';
 import {
   Column,
   DeleteDateColumn,
@@ -81,4 +82,10 @@ export class Character {
   })
   @JoinColumn()
   spells: Spell[];
+
+  // Many characters can be created by one user
+  @ManyToOne(() => User, (user) => user.characters_created, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  created_by: User;
 }
