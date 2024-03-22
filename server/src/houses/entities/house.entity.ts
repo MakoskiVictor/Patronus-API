@@ -25,6 +25,7 @@ export class House {
   @OneToMany(() => Character, (character) => character.house, {
     // Este cascade ayuda a la recuperación en caso de delete
     cascade: ['soft-remove', 'recover'],
+    eager: true,
   })
   characters: Character[];
 }
