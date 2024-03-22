@@ -1,4 +1,12 @@
-import { Column, DeleteDateColumn, Entity, PrimaryColumn } from 'typeorm';
+import { Character } from 'src/characters';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryColumn,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -19,4 +27,11 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  // One User can create many Characters
+  @OneToMany(() => Character, (characters) => characters.created_by, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  @JoinColumn()
+  characters_created: Character[];
 }
