@@ -1,4 +1,5 @@
 import { Character } from 'src/characters';
+import { Spell } from 'src/spells';
 import {
   Column,
   DeleteDateColumn,
@@ -34,4 +35,12 @@ export class User {
   })
   @JoinColumn()
   characters_created: Character[];
+
+  // One User can create many Spells
+  @OneToMany(() => Spell, (spells) => spells.created_by, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  @JoinColumn()
+  // Nombre de la columna
+  spells_created: Spell[];
 }
