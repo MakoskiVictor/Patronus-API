@@ -1,7 +1,9 @@
+import { Character } from 'src/characters';
 import {
   Column,
   DeleteDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -21,4 +23,11 @@ export class Wand {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  // One Wand can only belong to one Character
+  @OneToOne(() => Character, (character) => character.wand, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  // Column name
+  character: Character;
 }
