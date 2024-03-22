@@ -1,5 +1,6 @@
 import { AlternateName } from 'src/alternate_names';
 import { House } from 'src/houses';
+import { Species } from 'src/species';
 import {
   Column,
   DeleteDateColumn,
@@ -54,11 +55,21 @@ export class Character {
     cascade: ['soft-remove', 'recover'],
   })
   @JoinColumn()
+  // Nombre de la Columna
   house: House;
 
+  // Un Character puede tener varios Alternated_names
   @OneToMany(() => AlternateName, (alternatename) => alternatename.character, {
     cascade: ['soft-remove', 'recover'],
   })
   @JoinColumn()
+  // Nombre de la Columna
   alternate_names: AlternateName[];
+
+  // Un Character solo pertenece a una specie
+  @OneToMany(() => Species, (specie) => specie.characters, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  @JoinColumn()
+  specie: Species;
 }
