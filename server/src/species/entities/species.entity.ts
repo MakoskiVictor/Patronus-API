@@ -1,7 +1,9 @@
+import { Character } from 'src/characters';
 import {
   Column,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -18,4 +20,11 @@ export class Species {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  // Una Specie puede alvergar varios Characters
+  @OneToMany(() => Character, (characters) => characters.specie, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  // Nombre de la columna
+  characters: Character[];
 }
