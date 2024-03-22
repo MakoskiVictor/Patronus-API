@@ -24,6 +24,7 @@ export class Species {
   // Una Specie puede alvergar varios Characters
   @OneToMany(() => Character, (characters) => characters.specie, {
     cascade: ['soft-remove', 'recover'],
+    eager: true,
   })
   // Nombre de la columna
   characters: Character[];
