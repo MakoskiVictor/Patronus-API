@@ -1,9 +1,11 @@
 import { Character } from 'src/characters';
+import { User } from 'src/users';
 import {
   Column,
   DeleteDateColumn,
   Entity,
   ManyToMany,
+  ManyToOne,
   PrimaryColumn,
 } from 'typeorm';
 
@@ -27,4 +29,10 @@ export class Spell {
   })
   //Nombre de la columna
   characters: Character[];
+
+  // Many Spells can be created by one User
+  @ManyToOne(() => User, (user) => user.spells_created, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  created_by: User;
 }
