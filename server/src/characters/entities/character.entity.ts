@@ -1,3 +1,4 @@
+import { AlternateName } from 'src/alternate_names';
 import { House } from 'src/houses';
 import {
   Column,
@@ -5,6 +6,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -53,4 +55,10 @@ export class Character {
   })
   @JoinColumn()
   house: House;
+
+  @OneToMany(() => AlternateName, (alternatename) => alternatename.character, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  @JoinColumn()
+  alternate_names: AlternateName[];
 }
