@@ -1,23 +1,23 @@
 import {
   IsDecimal,
-  IsEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   MaxLength,
 } from 'class-validator';
 
 export class CreateWandDto {
-  @IsEmpty()
+  @IsOptional()
   @IsString()
   @MaxLength(50)
   wood: string;
 
-  @IsEmpty()
+  @IsOptional()
   @IsString()
   @MaxLength(50)
   core: string;
 
-  @IsEmpty()
+  @IsOptional()
   @IsNumber()
   @IsDecimal({ decimal_digits: '2' })
   length: number;
