@@ -64,6 +64,7 @@ export class Character {
     // Este cascade ayuda a la recuperación en caso de delete
     cascade: ['soft-remove', 'recover'],
     eager: true,
+    nullable: true,
   })
   @JoinColumn()
   // Nombre de la Columna
@@ -73,6 +74,7 @@ export class Character {
   @OneToMany(() => AlternateName, (alternatename) => alternatename.character, {
     cascade: ['soft-remove', 'recover'],
     eager: true,
+    nullable: true,
   })
   @JoinColumn()
   // Nombre de la Columna
@@ -82,6 +84,7 @@ export class Character {
   @ManyToOne(() => Species, (specie) => specie.characters, {
     cascade: ['soft-remove', 'recover'],
     eager: true,
+    nullable: true,
   })
   @JoinColumn()
   specie: Species;
@@ -90,6 +93,7 @@ export class Character {
   @ManyToMany(() => Spell, (spells) => spells.characters, {
     cascade: ['soft-remove', 'recover'],
     eager: true,
+    nullable: true,
   })
   @JoinColumn()
   spells: Spell[];
@@ -97,6 +101,7 @@ export class Character {
   // Many characters can be created by one user
   @ManyToOne(() => User, (user) => user.characters_created, {
     cascade: ['soft-remove', 'recover'],
+    nullable: true,
   })
   created_by: User;
 
@@ -104,6 +109,7 @@ export class Character {
   @OneToOne(() => Wand, (wand) => wand.character, {
     cascade: ['soft-remove', 'recover'],
     eager: true,
+    nullable: true,
   })
   @JoinColumn()
   wand: Wand;
