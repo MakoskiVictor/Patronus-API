@@ -4,12 +4,12 @@ import {
   DeleteDateColumn,
   Entity,
   OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity()
 export class House {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'varchar', unique: true })
@@ -25,6 +25,7 @@ export class House {
   @OneToMany(() => Character, (character) => character.house, {
     // Este cascade ayuda a la recuperación en caso de delete
     cascade: ['soft-remove', 'recover'],
+    nullable: true,
   })
   characters: Character[];
 }
