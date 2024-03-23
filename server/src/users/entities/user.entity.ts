@@ -23,8 +23,13 @@ export class User {
   @Column({ type: 'varchar', nullable: false })
   password: string;
 
-  @Column({ type: 'enum', default: 'user', nullable: true })
-  rol: 'user' | 'admin';
+  @Column({
+    type: 'enum',
+    enum: ['user', 'admin'],
+    default: 'user',
+    nullable: true,
+  })
+  rol: string;
 
   @DeleteDateColumn()
   deletedAt: Date;
