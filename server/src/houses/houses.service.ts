@@ -3,7 +3,7 @@ import { CreateHouseDto } from './dto/create-house.dto';
 import { UpdateHouseDto } from './dto/update-house.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { House } from './entities';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 
 @Injectable()
 export class HousesService {
@@ -11,7 +11,8 @@ export class HousesService {
     @InjectRepository(House) private houseRepository: Repository<House>,
   ) {}
 
-  // CREATE HOUSE
+  // ------CREATE HOUSE------
+
   async create(createHouseDto: CreateHouseDto) {
     // Search if the House alredy exists
 
@@ -19,10 +20,18 @@ export class HousesService {
       where: {
         name: createHouseDto.name,
       },
+      withDeleted: true,
     });
 
+    if (houseFound && houseFound.deletedAt !== null) {
+      throw new HttpException(
+        'The House exist but need to be recovered!',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
     if (houseFound) {
-      throw new HttpException('The House alredy exist!', HttpStatus.CONFLICT);
+      throw new HttpException('The House alredy exist!', HttpStatus.NOT_FOUND);
     }
 
     // If no exists, create one
@@ -32,16 +41,45 @@ export class HousesService {
     return await this.houseRepository.save(newHouse);
   }
 
-  async findAll() {
-    // Seach the Houses
-    return this.houseRepository.find();
+  // ------RECOVER HOUSE------
+
+  async recoverHouse(createHouseDto: CreateHouseDto) {
+    const houseFound = await this.houseRepository.findOne({
+      where: {
+        name: createHouseDto.name,
+      },
+      withDeleted: true,
+    });
+
+    if (!houseFound) {
+      throw new HttpException('House not found!', HttpStatus.NOT_FOUND);
+    }
+
+    return await this.houseRepository.recover(houseFound);
   }
 
+  // ------FIND ALL HOUSES------
+
+  async findAll() {
+    // Seach the Houses
+    const housesFound = await this.houseRepository.find({
+      select: ['id', 'name', 'description'],
+    });
+
+    if (housesFound.length === 0) {
+      throw new HttpException('There are hot houses yet', HttpStatus.NOT_FOUND);
+    }
+
+    return housesFound;
+  }
+
+  // ------FIND ONE HOUSE BY ID------
   async findOne(uuid: string) {
     const findHouse = await this.houseRepository.findOne({
       where: {
         id: uuid,
       },
+      select: ['id', 'name', 'description', 'characters'],
     });
 
     if (!findHouse) {
@@ -50,11 +88,52 @@ export class HousesService {
     return findHouse;
   }
 
-  async update(id: number, updateHouseDto: UpdateHouseDto) {
-    return `This action updates a #${id} house`;
+  // ------FIND SEVERAL HOUSES BY NAME------
+
+  async findByName(name: string) {
+    const housesFound = await this.houseRepository.find({
+      where: {
+        name: ILike(`%${name}%`),
+      },
+      select: ['id', 'name', 'description'],
+    });
+
+    if (housesFound.length === 0) {
+      throw new HttpException('No houses found', HttpStatus.NOT_FOUND);
+    }
+
+    return housesFound;
   }
 
-  async remove(id: number) {
-    return `This action removes a #${id} house`;
+  // ------UPDATE HOUSE BY ID------
+
+  async update(uuid: string, updateHouseDto: UpdateHouseDto) {
+    const houseFound = this.houseRepository.findOne({
+      where: {
+        id: uuid,
+      },
+    });
+
+    if (!houseFound) {
+      throw new HttpException('House not found', HttpStatus.NOT_FOUND);
+    }
+    await this.houseRepository.update(uuid, updateHouseDto);
+
+    return { message: 'House updated successfully' };
+  }
+
+  // ------DELETE HOUSE------
+
+  async remove(uuid: string) {
+    const findHouse = await this.houseRepository.findOne({
+      where: { id: uuid },
+    });
+
+    if (!findHouse) {
+      throw new HttpException('House not found', HttpStatus.NOT_FOUND);
+    }
+    return await this.houseRepository.softDelete({
+      id: uuid,
+    });
   }
 }
