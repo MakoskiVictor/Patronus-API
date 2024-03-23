@@ -1,8 +1,8 @@
-import { IsString, IsNotEmpty, MaxLength } from 'class-validator';
+import { IsString, MaxLength, IsOptional } from 'class-validator';
 
 export class CreateAlternateNameDto {
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @MaxLength(50)
   name: string;
 }
