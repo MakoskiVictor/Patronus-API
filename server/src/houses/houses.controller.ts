@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import { HousesService } from './houses.service';
 import { CreateHouseDto } from './dto/create-house.dto';
 import { UpdateHouseDto } from './dto/update-house.dto';
@@ -12,23 +21,37 @@ export class HousesController {
     return this.housesService.create(createHouseDto);
   }
 
+  @Post('recover')
+  recover(@Body() createHouseDto: CreateHouseDto) {
+    return this.housesService.recoverHouse(createHouseDto);
+  }
+
   @Get()
   findAll() {
     return this.housesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.housesService.findOne(+id);
+  // ParseUUIDPipe para comprobara que el param cumple el formato
+  @Get(':uuid')
+  findOne(@Param('uuid', ParseUUIDPipe) uuid: string) {
+    return this.housesService.findOne(uuid);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateHouseDto: UpdateHouseDto) {
-    return this.housesService.update(+id, updateHouseDto);
+  @Get('name/:name')
+  findSeveralByName(@Param('name') name: string) {
+    return this.housesService.findByName(name);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.housesService.remove(+id);
+  @Patch(':uuid')
+  update(
+    @Param('uuid', ParseUUIDPipe) uuid: string,
+    @Body() updateHouseDto: UpdateHouseDto,
+  ) {
+    return this.housesService.update(uuid, updateHouseDto);
+  }
+
+  @Delete(':uuid')
+  remove(@Param('uuid', ParseUUIDPipe) uuid: string) {
+    return this.housesService.remove(uuid);
   }
 }
