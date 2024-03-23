@@ -24,8 +24,13 @@ export class Character {
   @Column({ type: 'varchar', nullable: false, unique: true })
   name: string;
 
-  @Column({ type: 'enum', default: 'unknown', nullable: true })
-  gender: 'male' | 'female' | 'unknown';
+  @Column({
+    type: 'enum',
+    enum: ['male', 'female', 'unknown'],
+    default: 'unknown',
+    nullable: true,
+  })
+  gender: string;
 
   @Column({ type: 'date', default: null, nullable: true })
   date_of_birth: string;
