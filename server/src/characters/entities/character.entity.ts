@@ -42,7 +42,7 @@ export class Character {
   @Column({ type: 'boolean', nullable: false })
   hogwarts_staff: boolean;
 
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: 'varchar', nullable: true })
   actor: string;
 
   @Column({ type: 'boolean', nullable: false })
