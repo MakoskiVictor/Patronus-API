@@ -26,7 +26,6 @@ export class Spell {
   // Many Spells can be known by mane characters
   @ManyToMany(() => Character, (characters) => characters.spells, {
     cascade: ['recover', 'soft-remove'],
-    eager: true,
   })
   //Nombre de la columna
   characters: Character[];
@@ -34,7 +33,6 @@ export class Spell {
   // Many Spells can be created by one User
   @ManyToOne(() => User, (user) => user.spells_created, {
     cascade: ['soft-remove', 'recover'],
-    eager: true,
   })
   created_by: User;
 }

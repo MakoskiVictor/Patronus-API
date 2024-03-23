@@ -97,7 +97,6 @@ export class Character {
   // Many characters can be created by one user
   @ManyToOne(() => User, (user) => user.characters_created, {
     cascade: ['soft-remove', 'recover'],
-    eager: true,
   })
   created_by: User;
 

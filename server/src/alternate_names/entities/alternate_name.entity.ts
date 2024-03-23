@@ -20,7 +20,6 @@ export class AlternateName {
 
   @ManyToOne(() => Character, (character) => character.alternate_names, {
     cascade: ['soft-remove', 'recover'],
-    eager: true,
   })
   character: Character;
 }
