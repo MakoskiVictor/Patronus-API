@@ -12,7 +12,7 @@ export class AlternateName {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({ type: 'varchar', unique: true })
+  @Column({ type: 'varchar', unique: true, nullable: true })
   name: string;
 
   @DeleteDateColumn()
