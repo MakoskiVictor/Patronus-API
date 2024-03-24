@@ -21,6 +21,11 @@ export class SpeciesController {
     return this.speciesService.create(createSpeciesDto);
   }
 
+  @Post('recover')
+  recover(@Body() updateSpeciesDto: UpdateSpeciesDto) {
+    return this.speciesService.recover(updateSpeciesDto);
+  }
+
   @Get()
   findAll() {
     return this.speciesService.findAll();
