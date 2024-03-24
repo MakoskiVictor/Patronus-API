@@ -1,26 +1,44 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateSpeciesDto } from './dto/create-species.dto';
 import { UpdateSpeciesDto } from './dto/update-species.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Species } from './entities';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class SpeciesService {
-  create(createSpeciesDto: CreateSpeciesDto) {
-    return 'This action adds a new species';
+  constructor(
+    @InjectRepository(Species) private speciesRepository: Repository<Species>,
+  ) {}
+
+  // CREATE SPECIE
+
+  async create(createSpeciesDto: CreateSpeciesDto) {
+    const specieFound = await this.speciesRepository.findOne({
+      where: {
+        name: createSpeciesDto.name,
+      },
+    });
+
+    if (specieFound) {
+      throw new HttpException('The specie alredy exist!', HttpStatus.CONFLICT);
+    }
+    return await this.speciesRepository.save(createSpeciesDto);
   }
 
-  findAll() {
+  async findAll() {
     return `This action returns all species`;
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return `This action returns a #${id} species`;
   }
 
-  update(id: number, updateSpeciesDto: UpdateSpeciesDto) {
+  async update(id: number, updateSpeciesDto: UpdateSpeciesDto) {
     return `This action updates a #${id} species`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} species`;
   }
 }
