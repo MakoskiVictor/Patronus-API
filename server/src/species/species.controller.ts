@@ -32,12 +32,15 @@ export class SpeciesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSpeciesDto: UpdateSpeciesDto) {
+  update(
+    @Param('id', ParseIntPipe) id: string,
+    @Body() updateSpeciesDto: UpdateSpeciesDto,
+  ) {
     return this.speciesService.update(+id, updateSpeciesDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: string) {
     return this.speciesService.remove(+id);
   }
 }
