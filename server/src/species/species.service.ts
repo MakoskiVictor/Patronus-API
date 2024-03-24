@@ -54,10 +54,47 @@ export class SpeciesService {
   }
 
   async update(id: number, updateSpeciesDto: UpdateSpeciesDto) {
-    return `This action updates a #${id} species`;
+    const findSpecie = await this.speciesRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+    if (!findSpecie) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    await this.speciesRepository.update(id, updateSpeciesDto);
+    return { status: 201, message: 'Specie updated successfully!' };
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} species`;
+    const findSpecie = await this.speciesRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+    if (!findSpecie) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.speciesRepository.softDelete({
+      id: id,
+    });
+    return { status: 204, message: 'Specie deleted successfully!' };
+  }
+
+  async recover(updateSpeciesDto: UpdateSpeciesDto) {
+    const findSpecie = await this.speciesRepository.findOne({
+      where: {
+        name: updateSpeciesDto.name,
+      },
+      withDeleted: true,
+    });
+
+    if (!findSpecie || findSpecie.deletedAt === null) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.speciesRepository.recover(findSpecie);
+    return { status: 201, message: 'Specie successfully recovered!' };
   }
 }
