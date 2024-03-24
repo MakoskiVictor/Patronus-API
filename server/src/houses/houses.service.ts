@@ -43,19 +43,20 @@ export class HousesService {
 
   // ------RECOVER HOUSE------
 
-  async recoverHouse(createHouseDto: CreateHouseDto) {
+  async recoverHouse(updateHouseDto: UpdateHouseDto) {
     const houseFound = await this.houseRepository.findOne({
       where: {
-        name: createHouseDto.name,
+        name: updateHouseDto.name,
       },
       withDeleted: true,
     });
 
-    if (!houseFound) {
+    if (!houseFound || houseFound.deletedAt === null) {
       throw new HttpException('House not found!', HttpStatus.NOT_FOUND);
     }
 
-    return await this.houseRepository.recover(houseFound);
+    await this.houseRepository.recover(houseFound);
+    return { status: 201, message: 'House successfully recovered!' };
   }
 
   // ------FIND ALL HOUSES------
