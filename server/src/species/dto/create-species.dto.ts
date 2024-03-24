@@ -1,12 +1,12 @@
-import { IsEmpty, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class CreateSpeciesDto {
-  @IsEmpty()
+  @IsNotEmpty()
   @IsString()
   @MaxLength(50)
   name: string;
 
-  @IsEmpty()
+  @IsNotEmpty()
   @IsString()
   deacription: string;
 }
