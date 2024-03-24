@@ -27,11 +27,30 @@ export class SpeciesService {
   }
 
   async findAll() {
-    return `This action returns all species`;
+    const findAllSpecies = await this.speciesRepository.find({
+      select: ['id', 'name', 'description'],
+    });
+    if (findAllSpecies.length === 0) {
+      throw new HttpException(
+        'There are no species created yet!',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return findAllSpecies;
   }
 
   async findOne(id: number) {
-    return `This action returns a #${id} species`;
+    const findSpecie = await this.speciesRepository.findOne({
+      where: {
+        id: id,
+      },
+      select: ['id', 'name', 'description'],
+    });
+
+    if (!findSpecie) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    return findSpecie;
   }
 
   async update(id: number, updateSpeciesDto: UpdateSpeciesDto) {
