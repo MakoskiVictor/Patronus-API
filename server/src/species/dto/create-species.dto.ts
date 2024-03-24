@@ -8,5 +8,5 @@ export class CreateSpeciesDto {
 
   @IsNotEmpty()
   @IsString()
-  deacription: string;
+  description: string;
 }
