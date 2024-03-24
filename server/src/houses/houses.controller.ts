@@ -22,8 +22,8 @@ export class HousesController {
   }
 
   @Post('recover')
-  recover(@Body() createHouseDto: CreateHouseDto) {
-    return this.housesService.recoverHouse(createHouseDto);
+  recover(@Body() updateHouseDto: UpdateHouseDto) {
+    return this.housesService.recoverHouse(updateHouseDto);
   }
 
   @Get()
