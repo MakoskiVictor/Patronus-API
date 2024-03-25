@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateWandDto } from './dto/create-wand.dto';
 import { UpdateWandDto } from './dto/update-wand.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,27 +12,21 @@ export class WandsService {
   ) {}
 
   // --------- CREATE ---------
-  create(createWandDto: CreateWandDto) {
-    return 'This action adds a new wand';
-  }
-
-  // --------- FIND ALL ---------
-  findAll() {
-    return `This action returns all wands`;
-  }
-
-  // --------- FINDE ONE ---------
-  findOne(id: number) {
-    return `This action returns a #${id} wand`;
+  async create(createWandDto: CreateWandDto) {
+    return await this.wandsRepository.save(createWandDto);
   }
 
   // --------- UPDATE ---------
-  update(id: number, updateWandDto: UpdateWandDto) {
-    return `This action updates a #${id} wand`;
-  }
+  async update(id: number, updateWandDto: UpdateWandDto) {
+    const findWand = await this.wandsRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+    if (!findWand) {
+      throw new HttpException('Wand not found', HttpStatus.NOT_FOUND);
+    }
 
-  // --------- REMOVE ---------
-  remove(id: number) {
-    return `This action removes a #${id} wand`;
+    return await this.wandsRepository.update(id, updateWandDto);
   }
 }
