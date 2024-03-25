@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AlternateNamesService } from './alternate_names.service';
 import { CreateAlternateNameDto } from './dto/create-alternate_name.dto';
 import { UpdateAlternateNameDto } from './dto/update-alternate_name.dto';
@@ -23,7 +31,10 @@ export class AlternateNamesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAlternateNameDto: UpdateAlternateNameDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateAlternateNameDto: UpdateAlternateNameDto,
+  ) {
     return this.alternateNamesService.update(+id, updateAlternateNameDto);
   }
 
