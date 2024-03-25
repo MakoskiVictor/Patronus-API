@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import { SpellsService } from './spells.service';
 import { CreateSpellDto } from './dto/create-spell.dto';
 import { UpdateSpellDto } from './dto/update-spell.dto';
@@ -17,9 +26,9 @@ export class SpellsController {
     return this.spellsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.spellsService.findOne(+id);
+  @Get(':uuid')
+  findOne(@Param('uuid', ParseUUIDPipe) uuid: string) {
+    return this.spellsService.findOne(uuid);
   }
 
   @Patch(':id')
