@@ -10,6 +10,8 @@ export class SpellsService {
   constructor(
     @InjectRepository(Spell) private spellsRepository: Repository<Spell>,
   ) {}
+
+  // ---------- CREATE ----------
   async create(createSpellDto: CreateSpellDto) {
     const findSpell = await this.spellsRepository.findOne({
       where: {
@@ -22,6 +24,7 @@ export class SpellsService {
     return this.spellsRepository.save(createSpellDto);
   }
 
+  // ---------- FIND ----------
   async findAll() {
     const findSpells = await this.spellsRepository.find({
       select: ['id', 'name', 'description'],
@@ -32,14 +35,17 @@ export class SpellsService {
     return findSpells;
   }
 
+  // ---------- FIND ONE ----------
   async findOne(id: number) {
     return `This action returns a #${id} spell`;
   }
 
+  // ---------- UPDATE ----------
   async update(id: number, updateSpellDto: UpdateSpellDto) {
     return `This action updates a #${id} spell`;
   }
 
+  // ---------- REMOVE ----------
   async remove(id: number) {
     return `This action removes a #${id} spell`;
   }
