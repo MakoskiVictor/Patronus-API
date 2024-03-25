@@ -51,12 +51,34 @@ export class SpellsService {
   }
 
   // ---------- UPDATE ----------
-  async update(id: number, updateSpellDto: UpdateSpellDto) {
-    return `This action updates a #${id} spell`;
+  async update(uuid: string, updateSpellDto: UpdateSpellDto) {
+    const findSpell = await this.spellsRepository.findOne({
+      where: {
+        id: uuid,
+      },
+    });
+    if (!findSpell) {
+      throw new HttpException('Spell not found!', HttpStatus.NOT_FOUND);
+    }
+
+    await this.spellsRepository.update(uuid, updateSpellDto);
+    return { status: 201, message: 'Spell updated successfully!' };
   }
 
   // ---------- REMOVE ----------
-  async remove(id: number) {
-    return `This action removes a #${id} spell`;
+  async remove(uuid: string) {
+    const findSpell = await this.spellsRepository.findOne({
+      where: {
+        id: uuid,
+      },
+    });
+    if (!findSpell) {
+      throw new HttpException('Spell not found!', HttpStatus.NOT_FOUND);
+    }
+    await this.spellsRepository.softDelete({
+      id: uuid,
+    });
+
+    return { status: 204 };
   }
 }
