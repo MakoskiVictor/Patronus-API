@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { WandsService } from './wands.service';
 import { CreateWandDto } from './dto/create-wand.dto';
 import { UpdateWandDto } from './dto/update-wand.dto';
