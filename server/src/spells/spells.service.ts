@@ -23,7 +23,13 @@ export class SpellsService {
   }
 
   async findAll() {
-    return `This action returns all spells`;
+    const findSpells = await this.spellsRepository.find({
+      select: ['id', 'name', 'description'],
+    });
+    if (findSpells.length === 0) {
+      throw new HttpException('There are no spells yet!', HttpStatus.NOT_FOUND);
+    }
+    return findSpells;
   }
 
   async findOne(id: number) {
