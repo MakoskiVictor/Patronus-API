@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateAlternateNameDto } from './dto/create-alternate_name.dto';
 import { UpdateAlternateNameDto } from './dto/update-alternate_name.dto';
 import { Repository } from 'typeorm';
@@ -7,16 +7,38 @@ import { AlternateName } from './entities';
 
 @Injectable()
 export class AlternateNamesService {
-  constructor(@InjectRepository(AlternateName) private alternateNameRepository: Repository <AlternateName>){}
+  constructor(
+    @InjectRepository(AlternateName)
+    private alternateNameRepository: Repository<AlternateName>,
+  ) {}
 
   // ----------CREATE----------
   async create(createAlternateNameDto: CreateAlternateNameDto) {
-    const findName = await this.
+    const findName = await this.alternateNameRepository.findOne({
+      where: {
+        name: createAlternateNameDto.name,
+      },
+    });
+
+    if (findName) {
+      throw new HttpException(
+        'Alternate Name alredy exists!',
+        HttpStatus.CONFLICT,
+      );
+    }
+    return await this.alternateNameRepository.save(createAlternateNameDto);
   }
 
   // ----------FIND ----------
   async findAll() {
-    return `This action returns all alternateNames`;
+    const findNames = await this.alternateNameRepository.find({
+      select: ['id', 'name'],
+    });
+
+    if (findNames.length === 0) {
+      throw new HttpException('There are no names yet!', HttpStatus.NOT_FOUND);
+    }
+    return findNames;
   }
 
   // ----------FIND ONE----------
