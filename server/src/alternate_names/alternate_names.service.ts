@@ -48,7 +48,20 @@ export class AlternateNamesService {
 
   // ----------UPDATE ----------
   async update(id: number, updateAlternateNameDto: UpdateAlternateNameDto) {
-    return `This action updates a #${id} alternateName`;
+    const findName = await this.alternateNameRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!findName) {
+      throw new HttpException('Name not found!', HttpStatus.NOT_FOUND);
+    }
+
+    return await this.alternateNameRepository.update(
+      id,
+      updateAlternateNameDto,
+    );
   }
 
   // ---------- REMOVE----------
