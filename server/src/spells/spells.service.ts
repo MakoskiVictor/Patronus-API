@@ -36,8 +36,18 @@ export class SpellsService {
   }
 
   // ---------- FIND ONE ----------
-  async findOne(id: number) {
-    return `This action returns a #${id} spell`;
+  async findOne(uuid: string) {
+    const findSpell = await this.spellsRepository.findOne({
+      where: {
+        id: uuid,
+      },
+      select: ['id', 'name', 'description', 'characters'],
+    });
+    if (!findSpell) {
+      throw new HttpException('Spell not found!', HttpStatus.NOT_FOUND);
+    }
+
+    return findSpell;
   }
 
   // ---------- UPDATE ----------
