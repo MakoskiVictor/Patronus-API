@@ -31,13 +31,16 @@ export class SpellsController {
     return this.spellsService.findOne(uuid);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSpellDto: UpdateSpellDto) {
-    return this.spellsService.update(+id, updateSpellDto);
+  @Patch(':uuid')
+  update(
+    @Param('uuid', ParseUUIDPipe) uuid: string,
+    @Body() updateSpellDto: UpdateSpellDto,
+  ) {
+    return this.spellsService.update(uuid, updateSpellDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.spellsService.remove(+id);
+  @Delete(':uuid')
+  remove(@Param('uuid', ParseUUIDPipe) uuid: string) {
+    return this.spellsService.remove(uuid);
   }
 }
