@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAlternateNameDto } from './dto/create-alternate_name.dto';
 import { UpdateAlternateNameDto } from './dto/update-alternate_name.dto';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { AlternateName } from './entities';
 
 @Injectable()
 export class AlternateNamesService {
-  create(createAlternateNameDto: CreateAlternateNameDto) {
-    return 'This action adds a new alternateName';
+  constructor(@InjectRepository(AlternateName) private alternateNameRepository: Repository <AlternateName>){}
+
+  // ----------CREATE----------
+  async create(createAlternateNameDto: CreateAlternateNameDto) {
+    const findName = await this.
   }
 
-  findAll() {
+  // ----------FIND ----------
+  async findAll() {
     return `This action returns all alternateNames`;
   }
 
-  findOne(id: number) {
+  // ----------FIND ONE----------
+  async findOne(id: number) {
     return `This action returns a #${id} alternateName`;
   }
 
-  update(id: number, updateAlternateNameDto: UpdateAlternateNameDto) {
+  // ----------UPDATE ----------
+  async update(id: number, updateAlternateNameDto: UpdateAlternateNameDto) {
     return `This action updates a #${id} alternateName`;
   }
 
-  remove(id: number) {
+  // ---------- REMOVE----------
+  async remove(id: number) {
     return `This action removes a #${id} alternateName`;
   }
 }
